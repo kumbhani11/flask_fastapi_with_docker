@@ -1,0 +1,15 @@
+asyncio==3.4.3
+fastapi==0.104.1
+python-dotenv
+pydantic==2.5.2
+pydantic_core==2.14.5
+pymongo==4.6.1
+pyparsing==3.1.1
+python-dateutil==2.8.2
+python-multipart==0.0.6
+pytz==2023.3.post1
+requests==2.31.0
+six==1.16.0
+tzdata==2023.3
+urllib3==2.1.0
+uvicorn==0.24.0.post1

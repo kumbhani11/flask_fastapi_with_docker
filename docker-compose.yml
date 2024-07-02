@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  frontend:
+    build:
+      dockerfile: flask.Dockerfile
+      context: ./frontend
+    container_name: frontend
+    environment:
+      - ALGO_API_URL=http://backend
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./frontend:/code/frontend"
+    networks:
+      - docker_net
+    depends_on:
+      - backend
+  backend:
+    build:
+      dockerfile: fastapi.Dockerfile
+      context: ./backend
+    container_name: backend
+    environment:
+      - MONGO_HOST=db
+    ports:
+      - "8081:80"
+    volumes:
+      - "./backend:/code/backend"
+    networks:
+      - docker_net
+
+  db:
+    image: mongo:latest
+    container_name: db
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "3"
+    ports:
+      - 27018:27017
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - data-mongo:/data/db
+    networks:
+      - docker_net
+
+
+networks:
+  docker_net:
+    driver: bridge
+
+volumes:
+  data-mongo:
